@@ -24,3 +24,12 @@ class MLTrader(Strategy):
         quantity = round(cash * self.cash_at_risk / last_price, 0)
         return cash, last_price, quantity
 
+    def on_traiding_iteration(self):
+        cash, last_price, quantity = self.position_sizing()
+        if cash > last_price:
+            if self.last_trade ==  None:
+                order = self.create_order(self.symbol, quantity, "buy", type="bracket", )
+                self.submit_order(order)
+                self.last_trade = "buy"
+
+
