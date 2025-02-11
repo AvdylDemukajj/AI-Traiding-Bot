@@ -11,3 +11,10 @@ ALPACA_CREDS = {
     "PAPER": True
 }
 
+class MLTrader(Strategy):
+    def initialize(self, symbol:str="SPY", cash_at_risk:float=.5):
+        self.symbol = symbol
+        self.sleeptime = "24H"
+        self.last_trade = None
+        self.cash_at_risk = cash_at_risk
+
