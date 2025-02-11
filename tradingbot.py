@@ -2,16 +2,16 @@ from lumibot.brokers import Alpaca
 from lumibot.backtesting import YahooDataBacktesting
 from lumibot.strategies.strategy import Strategy
 from lumibot.traders import Trader
-from datetime import datetime
+from datetime import datetime, timedelta
 import config
 from alpaca_trade_api import REST
-from timedelta import Timedelta
 
 ALPACA_CREDS = {
     "API_KEY": config.API_KEY,
     "API_SECRET": config.API_SECRET,
     "PAPER": True
 }
+
 class MLTrader(Strategy): 
     def initialize(self, symbol:str="SPY", cash_at_risk:float=.5): 
         self.symbol = symbol
@@ -72,8 +72,8 @@ class MLTrader(Strategy):
                 self.submit_order(order) 
                 self.last_trade = "sell"
 
-start_date = datetime(2023,1,1)
-end_date = datetime(2025,2,11) 
+start_date = datetime(2020,1,1)
+end_date = datetime(2023,12,31) 
 broker = Alpaca(ALPACA_CREDS) 
 strategy = MLTrader(name='mlstrat', broker=broker, 
                     parameters={"symbol":"SPY", 
