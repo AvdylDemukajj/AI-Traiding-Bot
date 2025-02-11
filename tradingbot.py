@@ -4,6 +4,8 @@ from lumibot.strategies.strategy import Strategy
 from lumibot.traders import Trader
 from datetime import datetime
 import config
+from alpaca_trade_api import REST
+from timedelta import Timedelta
 
 ALPACA_CREDS = {
     "API_KEY": config.API_KEY,
@@ -17,12 +19,17 @@ class MLTrader(Strategy):
         self.sleeptime = "24H"
         self.last_trade = None
         self.cash_at_risk = cash_at_risk
+        self.api = REST(base_url=config.BASE_URL, key_id=config.API_KEY, secret_key=config.API_SECRET)
+
 
     def position_sizing(self):
         cash = self.get_cash()
         last_price = self.get_last_price(self.symbol)
         quantity = round(cash * self.cash_at_risk / last_price, 0)
         return cash, last_price, quantity
+
+
+
 
     def on_traiding_iteration(self):
         cash, last_price, quantity = self.position_sizing()
