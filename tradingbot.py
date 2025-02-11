@@ -28,6 +28,10 @@ class MLTrader(Strategy):
         quantity = round(cash * self.cash_at_risk / last_price, 0)
         return cash, last_price, quantity
 
+    def get_dates(self):
+        today = self.get_datetime()
+        three_days_prior = today - Timedelta(days=3)
+        return today.strfttime('%Y-%m-%d'), three_days_prior.strfttime('%Y-%m-%d')
 
 
 
